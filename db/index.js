@@ -6,7 +6,7 @@ const user = "root";
 const pwd = "";
 const host = "localhost";
 const port = 3306;
-const dataBase = "bandas";
+const dataBase = "travel";
 const conectionString = `mysql://${user}:${pwd}@${host}:${port}/${dataBase}`;
 
 //create a connection
