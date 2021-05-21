@@ -23,5 +23,3 @@ sequelizeObject
 
 module.exports = sequelizeObject;
 
-
-// CAMBIO 
