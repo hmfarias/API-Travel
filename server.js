@@ -25,17 +25,13 @@ const app = express();
 const rateLimitPolicy = rateLimit({
 	message: "intente de nuevo mas tarde",
 	max: 10,
-	windowMs: 120 * 60 * 1000,
+	windowMs: 5 * 60 * 1000, //minutos * 60 * 1000
 });
 
 //==========================================================================
 // 3.1 crear middlewares propios de nuestra API
 //==========================================================================
-const {
-	validateAdmin,
-	validateBandExists,
-	validateBandBody,
-} = require("./middlewares/index.js");
+const { validateAdmin } = require("./middlewares/index.js");
 //const { response } = require("express");
 
 //==========================================================================
@@ -56,7 +52,7 @@ app.use(compression());
 app.use(cors());
 
 //==========================================================================
-//ENDPOINTS
+//4. ENDPOINTS
 //==========================================================================
 //mysql 2. escribir el endpoint de login
 app.post("/login", async (req, res) => {
