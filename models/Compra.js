@@ -34,8 +34,8 @@ const Compra = sequelize.define(
 		},
 	},
 	{
-		tablename: "compra",
 		timestamps: false,
+		tablename: "compra",
 	}
 );
 module.exports = Compra;

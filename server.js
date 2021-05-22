@@ -7,8 +7,11 @@ const jwt = require("jsonwebtoken");
 const helmet = require("helmet");
 const compression = require("compression");
 const rateLimit = require("express-rate-limit");
-const Usuarios = require("./models/Users");
-const Bandas = require("./models/Paquetes");
+const Usuario = require("./models/Usuario");
+const Compra = require("./models/Compra");
+const FechaCompra = require("./models/Fecha");
+const ImagenPaquete = require("./models/Imagen");
+const Paquete = require("./models/Paquete");
 const db = require("./db/index");
 const { Op } = require("sequelize");
 const cors = require("cors");
@@ -56,7 +59,7 @@ app.use(cors());
 //==========================================================================
 //mysql 2. escribir el endpoint de login
 app.post("/login", async (req, res) => {
-	const emailPost = req.body.email;
+	const emailPost = req.body.mail;
 	const passwordPost = req.body.password;
 	const usuarioValidado = await User.findOne({
 		email: emailPost,
@@ -71,11 +74,8 @@ app.post("/login", async (req, res) => {
 		//mysql 3. crear el token
 		const token = jwt.sign(
 			{
-				name: usuarioValidado.name,
-				lastname: usuarioValidado.lastname,
 				email: usuarioValidado.email,
-				hobbies: usuarioValidado.hobbies,
-				admin: usuarioValidado.admin,
+				es_admin: usuarioValidado.es_admin,
 			},
 			secretJWT,
 			{ expiresIn: "60m" }
