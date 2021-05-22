@@ -15,7 +15,7 @@ const sequelizeObject = new Sequelize(conectionString);
 sequelizeObject
 	.authenticate()
 	.then(() => {
-		console.log("Successful connection");
+		console.log(`Conexión exitosa a la Base de Datos : ${dataBase}`);
 	})
 	.catch((err) => {
 		console.error(err.message);

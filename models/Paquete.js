@@ -18,10 +18,10 @@ const paquetes = sequelize.define(
 		},
 		alojamiento: {
 			type: DataTypes.STRING,
-			allowNull: true,
+			allowNull: false,
 		},
 		duracion: {
-			type: DataTypes.INT,
+			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
 		descripcion: {
@@ -29,7 +29,7 @@ const paquetes = sequelize.define(
 			allowNull: false,
 		},
 		pasajeros: {
-			type: DataTypes.INT,
+			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
 	},

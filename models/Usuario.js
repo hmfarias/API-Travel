@@ -1,8 +1,8 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../db/index");
 
-const usuarios = sequelize.define(
-    "usuarios",
+const Usuario = sequelize.define(
+    "usuario",
     {
         mail: {
             type: DataTypes.STRING,
@@ -13,7 +13,7 @@ const usuarios = sequelize.define(
             allowNull: false,
         },
         es_admin: {
-            type: DataTypes.TINYINT,
+            type: DataTypes.INTEGER,
             allowNull: false,
         },
     },
@@ -21,4 +21,4 @@ const usuarios = sequelize.define(
         timestamps: false,
     }
 );
-module.exports = usuarios;
+module.exports = Usuario;
