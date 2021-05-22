@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../db/index");
+const Compra = require('./Compra');
 
 const Usuario = sequelize.define(
     "usuario",
@@ -19,6 +20,12 @@ const Usuario = sequelize.define(
     },
     {
         timestamps: false,
+        tablename: 'usuario'
     }
 );
+
+Usuario.hasMany(Compra,{
+    foreignkey : 'usuario_id'
+});
+
 module.exports = Usuario;
