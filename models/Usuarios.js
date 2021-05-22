@@ -4,7 +4,7 @@ const sequelize = require("../db/index");
 const usuarios = sequelize.define(
     "usuarios",
     {
-        email: {
+        mail: {
             type: DataTypes.STRING,
             allowNull: false,
         },
