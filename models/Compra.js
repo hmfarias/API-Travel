@@ -1,8 +1,8 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../db/index");
 
-const compras = sequelize.define(
-	"compras",
+const Compra = sequelize.define(
+	"compra",
 	{
 		cantidad: {
 			type: DataTypes.INTEGER,
@@ -37,4 +37,4 @@ const compras = sequelize.define(
 		timestamps: false,
 	}
 );
-module.exports = compras;
+module.exports = Compra;

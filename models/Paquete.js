@@ -1,7 +1,8 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../db/index");
+const Compra = require("./Compra");
 
-const paquetes = sequelize.define(
+const Paquete = sequelize.define(
 	"paquete",
 	{
 		precio: {
@@ -18,10 +19,10 @@ const paquetes = sequelize.define(
 		},
 		alojamiento: {
 			type: DataTypes.STRING,
-			allowNull: true,
+			allowNull: false,
 		},
 		duracion: {
-			type: DataTypes.INT,
+			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
 		descripcion: {
@@ -29,12 +30,17 @@ const paquetes = sequelize.define(
 			allowNull: false,
 		},
 		pasajeros: {
-			type: DataTypes.INT,
+			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
 	},
 	{
 		timestamps: false,
+		tablename: 'paquete'
 	}
 );
-module.exports = paquetes;
+Paquete.hasMany(Compra , {
+	foreignKey : 'paquete_id'
+});
+
+module.exports = Paquete;
