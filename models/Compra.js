@@ -34,6 +34,7 @@ const Compra = sequelize.define(
 		},
 	},
 	{
+		tablename: "compra",
 		timestamps: false,
 	}
 );
