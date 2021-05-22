@@ -7,11 +7,11 @@ const jwt = require("jsonwebtoken");
 const helmet = require("helmet");
 const compression = require("compression");
 const rateLimit = require("express-rate-limit");
-const cors = require("cors");
-const { Op } = require("sequelize");
-// const Usuarios = require("./models/Usuarios");
-// const Paquetes = require("./models/Paquetes");
+const Usuarios = require("./models/Users");
+const Bandas = require("./models/Paquetes");
 const db = require("./db/index");
+const { Op } = require("sequelize");
+const cors = require("cors");
 
 //==========================================================================
 //2. crear la instacia de express
@@ -53,7 +53,7 @@ const secretJWT = "poneralgosupercompicadoconnumerosycaracteres123+5";
 app.use(express.json()); // este middleware nos convierte el json del body en objeto de js
 app.use(helmet());
 app.use(compression());
-app.use(cors()); 
+app.use(cors());
 
 //==========================================================================
 //ENDPOINTS
@@ -108,7 +108,7 @@ app.get("/bandas", validateBandBody, async (req, res) => {
 //localhost:3000/bandas
 app.get("/bandasv2", async (req, res) => {
 	try {
-		const bandas = await Paquetes.findAll();
+		const bandas = await Bandas.findAll();
 		res.status(200).json(bandas);
 	} catch (error) {
 		res.status(500).json({ error: "Intente mas tarde..." });
@@ -140,7 +140,7 @@ app.get("/bandas/buscar/:palabra", async (req, res) => {
 app.get("/bandasv2/buscar/:palabra", async (req, res) => {
 	const palabra = req.params.palabra;
 	try {
-		const bandas = await Paquetes.findAll({
+		const bandas = await Bandas.findAll({
 			where: {
 				nombre: {
 					[Op.substring]: palabra,
@@ -175,7 +175,7 @@ app.get("/bandas/:idBanda", async (req, res) => {
 app.get("/bandasv2/:idBanda", async (req, res) => {
 	const idBanda = req.params.idBanda;
 	try {
-		const bandas = await Paquetes.findByPk(idBanda);
+		const bandas = await Bandas.findByPk(idBanda);
 		res.status(200).json(bandas);
 	} catch (error) {
 		res.status(500).json({ error: "Intente mas tarde..." });
@@ -189,7 +189,7 @@ app.get("/bandasv2/:idBanda", async (req, res) => {
 app.get("/bandasv2/solista/:numIntegrantes", async (req, res) => {
 	const integrantes = req.params.numIntegrantes;
 	try {
-		const bandas = await Paquetes.findAll({
+		const bandas = await Bandas.findAll({
 			where: {
 				integrantes: integrantes,
 			},
@@ -230,7 +230,7 @@ app.post("/bandas", validateBandBody, async (req, res) => {
 app.post("/bandasv2", validateBandBody, async (req, res) => {
 	console.log("entra en agregar banda v2");
 	try {
-		const banda = await Paquetes.create({
+		const banda = await Bandas.create({
 			nombre: req.body.nombre,
 			integrantes: req.body.integrantes,
 			fecha_inicio: req.body.fecha_inicio,
@@ -275,7 +275,7 @@ app.put("/bandas/:idBanda", validateBandBody, async (req, res) => {
 app.put("/bandasv2/:idBanda", validateBandBody, async (req, res) => {
 	const idBanda = req.params.idBanda;
 	try {
-		const banda = await Paquetes.update(
+		const banda = await Bandas.update(
 			{
 				nombre: req.body.nombre,
 				integrantes: req.body.integrantes,
@@ -319,7 +319,7 @@ app.delete("/bandas/:idBanda", async (req, res) => {
 app.delete("/bandasv2/:idBanda", async (req, res) => {
 	const idBanda = req.params.idBanda;
 	try {
-		const banda = await Paquetes.destroy({
+		const banda = await Bandas.destroy({
 			where: {
 				id: {
 					[Op.eq]: idBanda,
@@ -331,7 +331,7 @@ app.delete("/bandasv2/:idBanda", async (req, res) => {
 		res.status(500).json({ error: "Intente mas tarde..." });
 	}
 });
-// ----------------------------END sequelize---------------------------------
+//----------------------------END sequelize---------------------------------
 
 //==========================================================================
 //5. levantar el servidor
