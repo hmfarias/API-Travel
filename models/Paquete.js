@@ -2,6 +2,7 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../db/index");
 const Compra = require("./Compra");
 const Fecha  = require('./Fecha');
+const Imagen = require('./Imagen');
 
 const Paquete = sequelize.define(
 	"paquete",
