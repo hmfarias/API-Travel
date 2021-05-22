@@ -4,16 +4,32 @@ const sequelize = require("../db/index");
 const usuarios = sequelize.define(
 	"usuarios",
 	{
-		email: {
+		username: {
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
-		password: {
+		nombre: {
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
-		es_admin: {
-			type: DataTypes.TINYINT,
+		correo: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
+		telefono: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
+		direccion: {
+			type: DataTypes.STRING,
+			allowNull: true,
+		},
+		pasword: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
+		admin: {
+			type: DataTypes.STRING,
 			allowNull: false,
 		},
 	},
