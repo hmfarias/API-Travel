@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../db/index");
+const Paquete = require("./Paquete");
 const Paquete_Compra = require("./Paquete_Compra");
 const Usuario = require("./Usuario");
 
@@ -33,8 +34,8 @@ const Compra = sequelize.define(
 	}
 );
 
-Compra.hasMany(Paquete_Compra, {
-	foreignkey: "compra_id",
+Compra.belongsToMany(Paquete, {
+	through: Paquete_Compra,
 });
 
 module.exports = Compra;

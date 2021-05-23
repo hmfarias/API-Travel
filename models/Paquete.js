@@ -2,6 +2,7 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../db/index");
 const Fecha = require("./Fecha");
 const Imagen = require("./Imagen");
+const Compra = require("./Compra");
 const Paquete_Compra = require("./Paquete_Compra");
 
 const Paquete = sequelize.define(
@@ -42,9 +43,10 @@ const Paquete = sequelize.define(
 	}
 );
 
-Paquete.hasMany(Paquete_Compra, {
-	foreignkey: "paquete_id",
+Paquete.belongsToMany(Compra, {
+	through: Paquete_Compra,
 });
+
 Paquete.hasMany(Fecha, {
 	foreignKey: "paquete_id",
 });
