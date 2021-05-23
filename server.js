@@ -34,7 +34,7 @@ const rateLimitPolicy = rateLimit({
 //==========================================================================
 // 3.1 crear middlewares propios de nuestra API
 //==========================================================================
-const { validateAdmin } = require("./middlewares/index.js");
+const { validateAdmin, validateBandBody } = require("./middlewares/index.js");
 //const { response } = require("express");
 
 //==========================================================================
@@ -86,26 +86,26 @@ app.post("/login", async (req, res) => {
 
 //mysql 4. escribir endpoints el resto
 
-//GET - TRAER TODAS LAS BANDAS
-//localhost:3000/bandas
-app.get("/bandas", validateBandBody, async (req, res) => {
+//GET - TRAER TODOS LOS USUARIOS
+//localhost:3000/usuarios
+app.get("/usuarios", async (req, res) => {
 	try {
-		const bandas = await db.query("SELECT * FROM bandas", {
+		const usuarios = await db.query("SELECT * FROM usuario", {
 			type: db.QueryTypes.SELECT,
 		});
-		res.status(200).json(bandas);
+		res.status(200).json(usuarios);
 	} catch (error) {
 		res.status(500).json({ error: "Intente mas tarde..." });
 	}
 });
 
 //----------------------------sequelize---------------------------------
-//GET - TRAER TODAS LAS BANDAS V2
-//localhost:3000/bandas
-app.get("/bandasv2", async (req, res) => {
+//GET - TRAER TODOS LOS USUARIOS V2
+//localhost:3000/usuarios
+app.get("/usuariosv2", async (req, res) => {
 	try {
-		const bandas = await Bandas.findAll();
-		res.status(200).json(bandas);
+		const usuarios = await Usuario.findAll();
+		res.status(200).json(usuarios);
 	} catch (error) {
 		res.status(500).json({ error: "Intente mas tarde..." });
 	}

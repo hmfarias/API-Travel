@@ -1,8 +1,8 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../db/index");
-const Compra = require("./Compra");
-const Fecha  = require('./Fecha');
-const Imagen = require('./Imagen');
+const Fecha = require("./Fecha");
+const Imagen = require("./Imagen");
+const Paquete_Compra = require("./Paquete_Compra");
 
 const Paquete = sequelize.define(
 	"paquete",
@@ -38,17 +38,18 @@ const Paquete = sequelize.define(
 	},
 	{
 		timestamps: false,
-		tablename: 'paquete'
+		tablename: "paquete",
 	}
 );
-Paquete.hasMany(Compra, {
-	foreignKey: 'paquete_id'
+
+Paquete.hasMany(Paquete_Compra, {
+	foreignkey: "paquete_id",
 });
 Paquete.hasMany(Fecha, {
-	foreignKey: 'paquete_id'
+	foreignKey: "paquete_id",
 });
-Paquete.hasMany(Imagen,{
-	foreignKey:'paquete_id'
+Paquete.hasMany(Imagen, {
+	foreignKey: "paquete_id",
 });
 
 module.exports = Paquete;

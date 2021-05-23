@@ -1,13 +1,18 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../db/index");
 const Paquete = require("./Paquete");
+const Compra = require("./Compra");
 
-const Fecha = sequelize.define(
-	"fecha",
+const Paquete_Compra = sequelize.define(
+	"paquete_compra",
 	{
-		fecha: {
-			type: DataTypes.DATE,
+		compra_id: {
+			type: DataTypes.INTEGER,
 			allowNull: false,
+			references: {
+				model: Compra,
+				key: "id",
+			},
 		},
 		paquete_id: {
 			type: DataTypes.INTEGER,
@@ -20,8 +25,7 @@ const Fecha = sequelize.define(
 	},
 	{
 		timestamps: false,
-		tablename: "fecha_paquete",
+		tablename: "paquete_compra",
 	}
 );
-
-module.exports = Fecha;
+module.exports = Paquete_Compra;
