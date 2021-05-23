@@ -5,7 +5,7 @@ const Compra = require("./Compra");
 const Usuario = sequelize.define(
 	"usuario",
 	{
-		mail: {
+		email: {
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
