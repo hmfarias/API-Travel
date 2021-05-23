@@ -4,6 +4,7 @@ const Fecha = require("./Fecha");
 const Imagen = require("./Imagen");
 const Compra = require("./Compra");
 
+
 const Paquete = sequelize.define(
 	"paquete",
 	{
@@ -43,11 +44,9 @@ const Paquete = sequelize.define(
 	}
 );
 
-
 Paquete.hasMany(Imagen, {
 	foreignKey: 'paquete_id'
 });
-
 Paquete.hasMany(Fecha, {
 	foreignKey: 'paquete_id'
 });
