@@ -1,9 +1,9 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../db/index");
-const Paquete = require("./Compra");
+const Paquete = require("./Paquete");
 
 const Imagen = sequelize.define(
-	"imagen",
+	"imagen_paquete",
 	{
 		url: {
 			type: DataTypes.STRING,
@@ -19,7 +19,8 @@ const Imagen = sequelize.define(
 		},
 	},
 	{
-		tablename: "imagen_paquete",
+		tablename: 'imagen_paquete',
+		freezeTableName: true,
 		timestamps: false,
 	}
 );

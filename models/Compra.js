@@ -1,10 +1,10 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../db/index");
-const Paquete_Compra = require("./Paquete_Compra");
+const Paquete = require("./Paquete");
 const Usuario = require("./Usuario");
 
 const Compra = sequelize.define(
-	"compra",
+	'compra',
 	{
 		cantidad: {
 			type: DataTypes.INTEGER,
@@ -14,9 +14,13 @@ const Compra = sequelize.define(
 			type: DataTypes.DATE,
 			allowNull: false,
 		},
-		fecha_viaje: {
-			type: DataTypes.DATE,
+		paquete_id: {
+			type: DataTypes.INTEGER,
 			allowNull: false,
+			references: {
+				model: Paquete,
+				key: "id",
+			},
 		},
 		usuario_id: {
 			type: DataTypes.INTEGER,
@@ -26,15 +30,16 @@ const Compra = sequelize.define(
 				key: "id",
 			},
 		},
+		fecha_viaje: {
+			type: DataTypes.DATE,
+			allowNull: false,
+		},
 	},
 	{
+		tablename: 'compra',
+		freezeTableName: true,
 		timestamps: false,
-		tablename: "compra",
-	}
+	},
 );
-
-Compra.hasMany(Paquete_Compra, {
-	foreignkey: "compra_id",
-});
 
 module.exports = Compra;

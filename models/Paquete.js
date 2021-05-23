@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../db/index");
 const Fecha = require("./Fecha");
 const Imagen = require("./Imagen");
-const Paquete_Compra = require("./Paquete_Compra");
+const Compra = require("./Compra");
 
 const Paquete = sequelize.define(
 	"paquete",
@@ -37,19 +37,23 @@ const Paquete = sequelize.define(
 		},
 	},
 	{
+		tablename: 'paquete',
 		timestamps: false,
-		tablename: "paquete",
+		freezeTableName: true,
 	}
 );
 
-Paquete.hasMany(Paquete_Compra, {
-	foreignkey: "paquete_id",
-});
-Paquete.hasMany(Fecha, {
-	foreignKey: "paquete_id",
-});
+
 Paquete.hasMany(Imagen, {
-	foreignKey: "paquete_id",
+	foreignKey: 'paquete_id'
 });
+
+Paquete.hasMany(Fecha, {
+	foreignKey: 'paquete_id'
+});
+
+// PRoblemas para relacionar con la tabla Compra (ANDUVO EN UN MOMENTO):
+
+Paquete.hasMany(Compra, { foreignKey: 'paquete_id' });
 
 module.exports = Paquete;

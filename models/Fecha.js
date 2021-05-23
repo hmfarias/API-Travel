@@ -3,7 +3,7 @@ const sequelize = require("../db/index");
 const Paquete = require("./Paquete");
 
 const Fecha = sequelize.define(
-	"fecha",
+	"fecha_paquete",
 	{
 		fecha: {
 			type: DataTypes.DATE,
@@ -19,8 +19,9 @@ const Fecha = sequelize.define(
 		},
 	},
 	{
-		timestamps: false,
 		tablename: "fecha_paquete",
+		freezeTableName: true,
+		timestamps: false,
 	}
 );
 
