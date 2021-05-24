@@ -3,26 +3,26 @@ const sequelize = require("../db/index");
 const Compra = require("./Compra");
 
 const Usuario = sequelize.define(
-	"usuario",
-	{
-		password: {
-			type: DataTypes.STRING,
-			allowNull: false,
-		},
-		email: {
-			type: DataTypes.STRING,
-			allowNull: false,
-		},
-		es_admin: {
-			type: DataTypes.TINYINT,
-			allowNull: false,
-		},
-	},
-	{
-		tablename: "usuario",
-		timestamps: false,
-		freezeTableName: true,
-	}
+  "usuario",
+  {
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    es_admin: {
+      type: DataTypes.TINYINT,
+      allowNull: false,
+    },
+  },
+  {
+    tablename: "usuario",
+    timestamps: false,
+    freezeTableName: true,
+  }
 );
 
 // Usuario.hasMany(Compra, { foreignKey: 'usuario_id' });
