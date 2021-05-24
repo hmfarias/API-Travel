@@ -8,10 +8,11 @@ const helmet = require("helmet");
 const compression = require("compression");
 const rateLimit = require("express-rate-limit");
 const Paquete = require("./models/Paquete");
-const Fecha = require('./models/Fecha');
-const Imagen = require('./models/Imagen');
-const Compra = require('./models/Compra');
-const Usuario = require('./models/Usuario');
+const Fecha = require("./models/Fecha");
+const Imagen = require("./models/Imagen");
+const Compra = require("./models/Compra");
+const Usuario = require("./models/Usuario");
+const Asociations = require("./models/Asociations");
 // const db = require("./db/index");
 // const { Op } = require("sequelize");
 // const cors = require("cors");
@@ -60,13 +61,10 @@ app.use(compression());
 
 // Testeo de correcta conexión entre modelo y tablas :
 
-app.get('/paquetes', async (req, res) => {
-	const paquete = await Compra.findAll(
-
-	)
+app.get("/paquetes", async (req, res) => {
+	const paquete = await Compra.findAll();
 	res.status(200).json(paquete);
 });
-
 
 //mysql 2. escribir el endpoint de login
 // app.post("/login", async (req, res) => {
@@ -76,7 +74,7 @@ app.get('/paquetes', async (req, res) => {
 // 		email: emailPost,
 // 		password: passwordPost,
 // 	});
-// 
+//
 // 	if (!usuarioValidado) {
 // 		res.status(401).json({
 // 			error: "usuario o contrasena invalida",

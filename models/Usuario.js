@@ -3,10 +3,10 @@ const sequelize = require("../db/index");
 const Compra = require("./Compra");
 
 const Usuario = sequelize.define(
-	'usuario',
+	"usuario",
 	{
-		password :{
-			type:DataTypes.STRING,
+		password: {
+			type: DataTypes.STRING,
 			allowNull: false,
 		},
 		es_admin: {
@@ -16,10 +16,10 @@ const Usuario = sequelize.define(
 		email: {
 			type: DataTypes.STRING,
 			allowNull: false,
-		}
+		},
 	},
 	{
-		tablename: 'usuario',
+		tablename: "usuario",
 		timestamps: false,
 		freezeTableName: true,
 	}
