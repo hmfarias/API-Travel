@@ -246,6 +246,33 @@ app.delete("/compras/:idCompra", async (req, res) => {
 	}
 });
 
+//PUT - MODIFICAR UNA COMPRA POR ID
+//localhost:3000/compras/idCompra
+app.put("/compras/:idCompra", async (req, res) => {
+	const idCompra = req.params.idCompra;
+	console.log(req.body);
+	try {
+		const compra = await Compra.update(
+			{
+				cantidad: req.body.cantidad,
+				fecha: req.body.fecha,
+				usuario_id: req.body.usuario_id,
+				fecha_viaje: req.body.usuario_id,
+			},
+			{
+				where: {
+					id: {
+						[Op.eq]: idCompra,
+					},
+				},
+			}
+		);
+		res.status(200).json(compra);
+	} catch (error) {
+		res.status(500).json({ error: "Intente mas tarde... modifica compra" });
+	}
+});
+
 //                                  FIN COMPRAS                                 //
 //------------------------------------------------------------------------------//
 
