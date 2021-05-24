@@ -3,6 +3,7 @@ const sequelize = require("../db/index");
 const Fecha = require("./Fecha");
 const Imagen = require("./Imagen");
 const Compra = require("./Compra");
+// const Paquete_Compra = require("./Paquete_Compra");
 
 const Paquete = sequelize.define(
 	"paquete",
@@ -53,5 +54,6 @@ Paquete.hasMany(Fecha, {
 // PRoblemas para relacionar con la tabla Compra (ANDUVO EN UN MOMENTO):
 
 // Paquete.hasMany(Compra, { foreignKey: "paquete_id" });
+Paquete.belongsToMany(Compra, { through: "paquete_compra" });
 
 module.exports = Paquete;

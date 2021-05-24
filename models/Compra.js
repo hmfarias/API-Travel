@@ -1,6 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../db/index");
 const Paquete = require("./Paquete");
+// const Paquete_Compra = require("./Paquete_Compra");
 const Usuario = require("./Usuario");
 
 const Compra = sequelize.define(
@@ -33,5 +34,7 @@ const Compra = sequelize.define(
 		timestamps: false,
 	}
 );
+
+// Compra.belongsToMany(Paquete, { through: "paquete_compra" });
 
 module.exports = Compra;

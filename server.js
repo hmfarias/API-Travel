@@ -8,6 +8,7 @@ const helmet = require("helmet");
 const compression = require("compression");
 const rateLimit = require("express-rate-limit");
 const Paquete = require("./models/Paquete");
+const PaqueteCompra = require("./models/Paquete");
 const Fecha = require("./models/Fecha");
 const Imagen = require("./models/Imagen");
 const Compra = require("./models/Compra");
@@ -66,17 +67,20 @@ app.use(cors()); // necesario para que en el front no nos aparezca error de cors
 // });
 
 //mysql 2. escribir el endpoint de login
+//localhost:3000/login
+
+// ESTO ESTÁ LISTO Y FUNCIONANDO, PERO SE COMENTA PARA QUE NO SEA TAN COMPLICADO CONSULTAR EL RESTO DE LOS ENDPOINTS
 // app.post("/login", async (req, res) => {
-// 	const emailPost = req.body.mail;
+// 	const emailPost = req.body.email;
 // 	const passwordPost = req.body.password;
-// 	const usuarioValidado = await User.findOne({
+// 	const usuarioValidado = await Usuario.findOne({
 // 		email: emailPost,
 // 		password: passwordPost,
 // 	});
-//
+
 // 	if (!usuarioValidado) {
 // 		res.status(401).json({
-// 			error: "usuario o contrasena invalida",
+// 			error: "usuario o contraseña inválida",
 // 		});
 // 	} else {
 // 		//mysql 3. crear el token
@@ -94,7 +98,6 @@ app.use(cors()); // necesario para que en el front no nos aparezca error de cors
 
 //mysql 4. escribir endpoints el resto
 
-//----------------------------sequelize---------------------------------
 //GET - TRAER TODOS LOS USUARIOS
 //localhost:3000/usuarios
 app.get("/usuarios", async (req, res) => {
@@ -170,7 +173,16 @@ app.get("/compras", async (req, res) => {
 	}
 });
 
-//----------------------------END sequelize---------------------------------
+//GET - TRAER TODOS LOS PAQUETE-COMPRA (PARA PROBAR)
+//localhost:3000/paquete_compra
+app.get("/paquete_compra", async (req, res) => {
+	try {
+		const paquete_compra = await PaqueteCompra.findAll();
+		res.status(200).json(paquete_compra);
+	} catch (error) {
+		res.status(500).json({ error: "Intente mas tarde..." });
+	}
+});
 
 //----------------------------sequelize---------------------------------
 //GET - TRAER BANDA/S POR PALABRA CLAVE - V2
@@ -185,20 +197,6 @@ app.get("/compras", async (req, res) => {
 // 				},
 // 			},
 // 		});
-// 		res.status(200).json(bandas);
-// 	} catch (error) {
-// 		res.status(500).json({ error: "Intente mas tarde..." });
-// 	}
-// });
-//---------------------------- END sequelize---------------------------------
-
-//----------------------------sequelize---------------------------------
-//GET - TRAER UNA BANDA POR ID - V2
-//localhost:3000/bandas/idBanda
-// app.get("/bandasv2/:idBanda", async (req, res) => {
-// 	const idBanda = req.params.idBanda;
-// 	try {
-// 		const bandas = await Bandas.findByPk(idBanda);
 // 		res.status(200).json(bandas);
 // 	} catch (error) {
 // 		res.status(500).json({ error: "Intente mas tarde..." });
