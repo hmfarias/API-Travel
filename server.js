@@ -158,6 +158,18 @@ app.get("/paquetes/:idPaquete", async (req, res) => {
 		res.status(500).json({ error: "Intente mas tarde..." });
 	}
 });
+
+//GET - TRAER TODAS LAS COMPRAS
+//localhost:3000/compras
+app.get("/compras", async (req, res) => {
+	try {
+		const compras = await Compra.findAll();
+		res.status(200).json(compras);
+	} catch (error) {
+		res.status(500).json({ error: "Intente mas tarde..." });
+	}
+});
+
 //----------------------------END sequelize---------------------------------
 
 //----------------------------sequelize---------------------------------

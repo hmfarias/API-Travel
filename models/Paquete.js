@@ -52,6 +52,6 @@ Paquete.hasMany(Fecha, {
 
 // PRoblemas para relacionar con la tabla Compra (ANDUVO EN UN MOMENTO):
 
-Paquete.hasMany(Compra, { foreignKey: "paquete_id" });
+// Paquete.hasMany(Compra, { foreignKey: "paquete_id" });
 
 module.exports = Paquete;

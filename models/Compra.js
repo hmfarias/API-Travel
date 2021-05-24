@@ -4,7 +4,7 @@ const Paquete = require("./Paquete");
 const Usuario = require("./Usuario");
 
 const Compra = sequelize.define(
-	'compra',
+	"compra",
 	{
 		cantidad: {
 			type: DataTypes.INTEGER,
@@ -13,14 +13,6 @@ const Compra = sequelize.define(
 		fecha: {
 			type: DataTypes.DATE,
 			allowNull: false,
-		},
-		paquete_id: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-			references: {
-				model: Paquete,
-				key: "id",
-			},
 		},
 		usuario_id: {
 			type: DataTypes.INTEGER,
@@ -36,10 +28,10 @@ const Compra = sequelize.define(
 		},
 	},
 	{
-		tablename: 'compra',
+		tablename: "compra",
 		freezeTableName: true,
 		timestamps: false,
-	},
+	}
 );
 
 module.exports = Compra;
