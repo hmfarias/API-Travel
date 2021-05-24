@@ -1,3 +1,16 @@
+// VALIDAR BODY PARA UNA COMPRA al hacer un POST
+function validateCompraBody(req, res, next) {
+	const msgError = [];
+	!req.body.cantidad && msgError.push("La Cantidad es obligatoria");
+	!req.body.fecha && msgError.push("La fecha es obligatoria");
+	!req.body.usuario_id && msgError.push("El ID de usuario es obligatorio");
+	!req.body.fecha_viaje && msgError.push("La fecha del viaje es obligatoria");
+
+	msgError.length > 0
+		? res.status(400).json({ error: msgError.join(",") })
+		: next();
+}
+
 //const { Banda } = require("../models/Bandas");
 
 // function validateAdmin(req, res, next) {
@@ -39,12 +52,16 @@
 // 		msgError.push("El número de integrantes es obligatorio");
 // 	!req.body.fecha_inicio && msgError.push("La fecha de inicio es obligatoria");
 // 	!req.body.pais && msgError.push("El país de la banda es obligatorio");
-// 
+//
 // 	msgError.length > 0
 // 		? res.status(400).json({ error: msgError.join(",") })
 // 		: next();
 // }
-// 
+//
+module.exports = {
+	validateCompraBody,
+};
+
 // module.exports = {
 // 	validateAdmin,
 // 	validateBandExists,

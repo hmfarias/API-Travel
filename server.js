@@ -35,7 +35,7 @@ const rateLimitPolicy = rateLimit({
 //==========================================================================
 // 3.1 crear middlewares propios de nuestra API
 //==========================================================================
-// const { validateAdmin, validateBandBody } = require("./middlewares/index.js");
+const { validateCompraBody } = require("./middlewares/index.js");
 //const { response } = require("express");
 
 //==========================================================================
@@ -187,6 +187,8 @@ app.get("/paquetes/:idPaquete", async (req, res) => {
 //                                   FIN PAQUETES                               //
 //------------------------------------------------------------------------------//
 
+//------------------------------------------------------------------------------//
+//                                   COMPRAS                                    //
 //GET - TRAER TODAS LAS COMPRAS
 //localhost:3000/compras
 app.get("/compras", async (req, res) => {
@@ -209,6 +211,25 @@ app.get("/compras/:idCompra", async (req, res) => {
 		res.status(500).json({ error: "Intente mas tarde..." });
 	}
 });
+
+//POST - AGREGAR UNA COMPRA
+//localhost:3000/compras
+app.post("/compras", validateCompraBody, async (req, res) => {
+	try {
+		const compra = await Compra.create({
+			cantidad: req.body.cantidad,
+			fecha: req.body.fecha,
+			usuario_id: req.body.usuario_id,
+			fecha_viaje: req.body.usuario_id,
+		});
+		res.status(200).json(compra);
+	} catch (error) {
+		res.status(500).json({ error: "Intente mas tarde..." });
+	}
+});
+
+//                                  FIN COMPRAS                                 //
+//------------------------------------------------------------------------------//
 
 //GET - TRAER TODOS LOS PAQUETE-COMPRA (PARA PROBAR)
 //localhost:3000/paquete_compra
