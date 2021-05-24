@@ -7,12 +7,14 @@ const express = require("express");
 const helmet = require("helmet");
 const compression = require("compression");
 const rateLimit = require("express-rate-limit");
-const Paquete = require("./models/Paquete");
-const PaqueteCompra = require("./models/Paquete");
-const Fecha = require("./models/Fecha");
-const Imagen = require("./models/Imagen");
-const Compra = require("./models/Compra");
-const Usuario = require("./models/Usuario");
+const {
+  Paquete,
+  PaqueteCompra,
+  Fecha,
+  Usuario,
+  Compra,
+  Imagen,
+} = require("./models");
 const db = require("./db/index");
 const { Op } = require("sequelize");
 const cors = require("cors"); // necesario para que en el front no nos aparezca error de cors
@@ -27,9 +29,9 @@ const app = express();
 //==========================================================================
 
 const rateLimitPolicy = rateLimit({
-	message: "intente de nuevo mas tarde",
-	max: 10,
-	windowMs: 5 * 60 * 1000, //minutos * 60 * 1000
+  message: "intente de nuevo mas tarde",
+  max: 10,
+  windowMs: 5 * 60 * 1000, //minutos * 60 * 1000
 });
 
 //==========================================================================
@@ -104,39 +106,39 @@ app.use(cors()); // necesario para que en el front no nos aparezca error de cors
 //GET - TRAER TODOS LOS USUARIOS
 //localhost:3000/usuarios
 app.get("/usuarios", async (req, res) => {
-	try {
-		const usuarios = await Usuario.findAll();
-		res.status(200).json(usuarios);
-	} catch (error) {
-		res.status(500).json({ error: "Intente mas tarde..." });
-	}
+  try {
+    const usuarios = await Usuario.findAll();
+    res.status(200).json(usuarios);
+  } catch (error) {
+    res.status(500).json({ error: "Intente mas tarde..." });
+  }
 });
 
 //GET - TRAER UN USUARIO POR ID
 //localhost:3000/usuarios/idUsuario
 app.get("/usuarios/:idUsuario", async (req, res) => {
-	const idUsuario = req.params.idUsuario;
-	try {
-		const usuario = await Usuario.findByPk(idUsuario);
-		res.status(200).json(usuario);
-	} catch (error) {
-		res.status(500).json({ error: "Intente mas tarde..." });
-	}
+  const idUsuario = req.params.idUsuario;
+  try {
+    const usuario = await Usuario.findByPk(idUsuario);
+    res.status(200).json(usuario);
+  } catch (error) {
+    res.status(500).json({ error: "Intente mas tarde..." });
+  }
 });
 
 //POST - AGREGAR UN USUARIO
 //localhost:3000/usuarios
 app.post("/usuarios", async (req, res) => {
-	try {
-		const usuario = await Usuario.create({
-			password: req.body.password,
-			email: req.body.email,
-			es_admin: req.body.es_admin,
-		});
-		res.status(200).json(usuario);
-	} catch (error) {
-		res.status(500).json({ error: "Intente mas tarde..." });
-	}
+  try {
+    const usuario = await Usuario.create({
+      password: req.body.password,
+      email: req.body.email,
+      es_admin: req.body.es_admin,
+    });
+    res.status(200).json(usuario);
+  } catch (error) {
+    res.status(500).json({ error: "Intente mas tarde..." });
+  }
 });
 //                                   FIN USUARIOS                               //
 //------------------------------------------------------------------------------//
@@ -147,42 +149,42 @@ app.post("/usuarios", async (req, res) => {
 //GET - TRAER TODOS LOS PAQUETES
 //localhost:3000/paquetes
 app.get("/paquetes", async (req, res) => {
-	try {
-		const paquetes = await Paquete.findAll({
-			include: [
-				{
-					model: Fecha,
-				},
-				{
-					model: Imagen,
-				},
-			],
-		});
-		res.status(200).json(paquetes);
-	} catch (error) {
-		res.status(500).json({ error: "Intente mas tarde..." });
-	}
+  try {
+    const paquetes = await Paquete.findAll({
+      include: [
+        {
+          model: Fecha,
+        },
+        {
+          model: Imagen,
+        },
+      ],
+    });
+    res.status(200).json(paquetes);
+  } catch (error) {
+    res.status(500).json({ error: "Intente mas tarde..." });
+  }
 });
 
 //GET - TRAER UN PAQUETE POR ID
 //localhost:3000/paquetes/:idPaquete
 app.get("/paquetes/:idPaquete", async (req, res) => {
-	const idPaquete = req.params.idPaquete;
-	try {
-		const paquetes = await Paquete.findByPk(idPaquete, {
-			include: [
-				{
-					model: Fecha,
-				},
-				{
-					model: Imagen,
-				},
-			],
-		});
-		res.status(200).json(paquetes);
-	} catch (error) {
-		res.status(500).json({ error: "Intente mas tarde..." });
-	}
+  const idPaquete = req.params.idPaquete;
+  try {
+    const paquetes = await Paquete.findByPk(idPaquete, {
+      include: [
+        {
+          model: Fecha,
+        },
+        {
+          model: Imagen,
+        },
+      ],
+    });
+    res.status(200).json(paquetes);
+  } catch (error) {
+    res.status(500).json({ error: "Intente mas tarde..." });
+  }
 });
 //                                   FIN PAQUETES                               //
 //------------------------------------------------------------------------------//
@@ -192,85 +194,85 @@ app.get("/paquetes/:idPaquete", async (req, res) => {
 //GET - TRAER TODAS LAS COMPRAS
 //localhost:3000/compras
 app.get("/compras", async (req, res) => {
-	try {
-		const compras = await Compra.findAll();
-		res.status(200).json(compras);
-	} catch (error) {
-		res.status(500).json({ error: "Intente mas tarde..." });
-	}
+  try {
+    const compras = await Compra.findAll();
+    res.status(200).json(compras);
+  } catch (error) {
+    res.status(500).json({ error: "Intente mas tarde..." });
+  }
 });
 
 //GET - TRAER UNA COMPRA POR ID
 //localhost:3000/compras/:idCompra
 app.get("/compras/:idCompra", async (req, res) => {
-	const idCompra = req.params.idCompra;
-	try {
-		const compras = await Compra.findByPk(idCompra);
-		res.status(200).json(compras);
-	} catch (error) {
-		res.status(500).json({ error: "Intente mas tarde..." });
-	}
+  const idCompra = req.params.idCompra;
+  try {
+    const compras = await Compra.findByPk(idCompra);
+    res.status(200).json(compras);
+  } catch (error) {
+    res.status(500).json({ error: "Intente mas tarde..." });
+  }
 });
 
 //POST - AGREGAR UNA COMPRA
 //localhost:3000/compras
 app.post("/compras", validateCompraBody, async (req, res) => {
-	try {
-		const compra = await Compra.create({
-			cantidad: req.body.cantidad,
-			fecha: req.body.fecha,
-			usuario_id: req.body.usuario_id,
-			fecha_viaje: req.body.usuario_id,
-		});
-		res.status(200).json(compra);
-	} catch (error) {
-		res.status(500).json({ error: "Intente mas tarde..." });
-	}
+  try {
+    const compra = await Compra.create({
+      cantidad: req.body.cantidad,
+      fecha: req.body.fecha,
+      usuario_id: req.body.usuario_id,
+      fecha_viaje: req.body.usuario_id,
+    });
+    res.status(200).json(compra);
+  } catch (error) {
+    res.status(500).json({ error: "Intente mas tarde..." });
+  }
 });
 
 //DELETE - ELIMINAR UNA COMPRA POR ID
 //localhost:3000/compras/idCompra
 app.delete("/compras/:idCompra", async (req, res) => {
-	const idCompra = req.params.idCompra;
-	try {
-		const compra = await Compra.destroy({
-			where: {
-				id: {
-					[Op.eq]: idCompra,
-				},
-			},
-		});
-		res.status(200).json(compra);
-	} catch (error) {
-		res.status(500).json({ error: "Intente mas tarde..." });
-	}
+  const idCompra = req.params.idCompra;
+  try {
+    const compra = await Compra.destroy({
+      where: {
+        id: {
+          [Op.eq]: idCompra,
+        },
+      },
+    });
+    res.status(200).json(compra);
+  } catch (error) {
+    res.status(500).json({ error: "Intente mas tarde..." });
+  }
 });
 
 //PUT - MODIFICAR UNA COMPRA POR ID
 //localhost:3000/compras/idCompra
 app.put("/compras/:idCompra", async (req, res) => {
-	const idCompra = req.params.idCompra;
-	console.log(req.body);
-	try {
-		const compra = await Compra.update(
-			{
-				cantidad: req.body.cantidad,
-				fecha: req.body.fecha,
-				usuario_id: req.body.usuario_id,
-				fecha_viaje: req.body.usuario_id,
-			},
-			{
-				where: {
-					id: {
-						[Op.eq]: idCompra,
-					},
-				},
-			}
-		);
-		res.status(200).json(compra);
-	} catch (error) {
-		res.status(500).json({ error: "Intente mas tarde... modifica compra" });
-	}
+  const idCompra = req.params.idCompra;
+  console.log(req.body);
+  try {
+    const compra = await Compra.update(
+      {
+        cantidad: req.body.cantidad,
+        fecha: req.body.fecha,
+        usuario_id: req.body.usuario_id,
+        fecha_viaje: req.body.usuario_id,
+      },
+      {
+        where: {
+          id: {
+            [Op.eq]: idCompra,
+          },
+        },
+      }
+    );
+    res.status(200).json(compra);
+  } catch (error) {
+    res.status(500).json({ error: "Intente mas tarde... modifica compra" });
+  }
 });
 
 //                                  FIN COMPRAS                                 //
@@ -279,12 +281,12 @@ app.put("/compras/:idCompra", async (req, res) => {
 //GET - TRAER TODOS LOS PAQUETE-COMPRA (PARA PROBAR)
 //localhost:3000/paquete_compra
 app.get("/paquete_compra", async (req, res) => {
-	try {
-		const paquete_compra = await PaqueteCompra.findAll();
-		res.status(200).json(paquete_compra);
-	} catch (error) {
-		res.status(500).json({ error: "Intente mas tarde..." });
-	}
+  try {
+    const paquete_compra = await PaqueteCompra.findAll();
+    res.status(200).json(paquete_compra);
+  } catch (error) {
+    res.status(500).json({ error: "Intente mas tarde..." });
+  }
 });
 
 //----------------------------sequelize---------------------------------
@@ -461,7 +463,7 @@ app.get("/paquete_compra", async (req, res) => {
 //5. levantar el servidor
 //==========================================================================
 app.listen(3000, () => {
-	console.log("servidor iniciado");
+  console.log("servidor iniciado");
 });
 
 //1:03

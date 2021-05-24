@@ -6,54 +6,42 @@ const Compra = require("./Compra");
 // const Paquete_Compra = require("./Paquete_Compra");
 
 const Paquete = sequelize.define(
-	"paquete",
-	{
-		precio: {
-			type: DataTypes.DOUBLE,
-			allowNull: false,
-		},
-		destino: {
-			type: DataTypes.STRING,
-			allowNull: false,
-		},
-		comidas: {
-			type: DataTypes.STRING,
-			allowNull: false,
-		},
-		alojamiento: {
-			type: DataTypes.STRING,
-			allowNull: false,
-		},
-		duracion: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-		},
-		descripcion: {
-			type: DataTypes.STRING,
-			allowNull: false,
-		},
-		pasajeros: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-		},
-	},
-	{
-		tablename: "paquete",
-		timestamps: false,
-		freezeTableName: true,
-	}
+  "paquete",
+  {
+    precio: {
+      type: DataTypes.DOUBLE,
+      allowNull: false,
+    },
+    destino: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    comidas: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    alojamiento: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    duracion: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    descripcion: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    pasajeros: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+  },
+  {
+    tablename: "paquete",
+    timestamps: false,
+    freezeTableName: true,
+  }
 );
-
-Paquete.hasMany(Imagen, {
-	foreignKey: "paquete_id",
-});
-Paquete.hasMany(Fecha, {
-	foreignKey: "paquete_id",
-});
-
-// PRoblemas para relacionar con la tabla Compra (ANDUVO EN UN MOMENTO):
-
-// Paquete.hasMany(Compra, { foreignKey: "paquete_id" });
-Paquete.belongsToMany(Compra, { through: "paquete_compra" });
 
 module.exports = Paquete;
