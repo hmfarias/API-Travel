@@ -228,6 +228,24 @@ app.post("/compras", validateCompraBody, async (req, res) => {
 	}
 });
 
+//DELETE - ELIMINAR UNA COMPRA POR ID
+//localhost:3000/compras/idCompra
+app.delete("/compras/:idCompra", async (req, res) => {
+	const idCompra = req.params.idCompra;
+	try {
+		const compra = await Compra.destroy({
+			where: {
+				id: {
+					[Op.eq]: idCompra,
+				},
+			},
+		});
+		res.status(200).json(compra);
+	} catch (error) {
+		res.status(500).json({ error: "Intente mas tarde..." });
+	}
+});
+
 //                                  FIN COMPRAS                                 //
 //------------------------------------------------------------------------------//
 
