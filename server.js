@@ -60,10 +60,10 @@ app.use(cors()); // necesario para que en el front no nos aparezca error de cors
 
 // Testeo de correcta conexión entre modelo y tablas :
 
-app.get("/paquetes", async (req, res) => {
-	const paquete = await Paquete.findAll();
-	res.status(200).json(paquete);
-});
+// app.get("/paquetes", async (req, res) => {
+// 	const paquete = await Paquete.findAll();
+// 	res.status(200).json(paquete);
+// });
 
 //mysql 2. escribir el endpoint de login
 // app.post("/login", async (req, res) => {
@@ -101,6 +101,17 @@ app.get("/usuarios", async (req, res) => {
 	try {
 		const usuarios = await Usuario.findAll();
 		res.status(200).json(usuarios);
+	} catch (error) {
+		res.status(500).json({ error: "Intente mas tarde..." });
+	}
+});
+
+//GET - TRAER TODOS LOS PAQUETES
+//localhost:3000/paquetes
+app.get("/paquetes", async (req, res) => {
+	try {
+		const paquetes = await Paquete.findAll();
+		res.status(200).json(paquetes);
 	} catch (error) {
 		res.status(500).json({ error: "Intente mas tarde..." });
 	}
