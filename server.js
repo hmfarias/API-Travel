@@ -98,6 +98,9 @@ app.use(cors()); // necesario para que en el front no nos aparezca error de cors
 
 //mysql 4. escribir endpoints el resto
 
+//------------------------------------------------------------------------------//
+//                                   USUARIOS                                   //
+//------------------------------------------------------------------------------//
 //GET - TRAER TODOS LOS USUARIOS
 //localhost:3000/usuarios
 app.get("/usuarios", async (req, res) => {
@@ -121,6 +124,26 @@ app.get("/usuarios/:idUsuario", async (req, res) => {
 	}
 });
 
+//POST - AGREGAR UN USUARIO
+//localhost:3000/usuarios
+app.post("/usuarios", async (req, res) => {
+	try {
+		const usuario = await Usuario.create({
+			password: req.body.password,
+			email: req.body.email,
+			es_admin: req.body.es_admin,
+		});
+		res.status(200).json(usuario);
+	} catch (error) {
+		res.status(500).json({ error: "Intente mas tarde..." });
+	}
+});
+//                                   FIN USUARIOS                               //
+//------------------------------------------------------------------------------//
+
+//------------------------------------------------------------------------------//
+//                                   PAQUETES                                   //
+//------------------------------------------------------------------------------//
 //GET - TRAER TODOS LOS PAQUETES
 //localhost:3000/paquetes
 app.get("/paquetes", async (req, res) => {
@@ -161,6 +184,8 @@ app.get("/paquetes/:idPaquete", async (req, res) => {
 		res.status(500).json({ error: "Intente mas tarde..." });
 	}
 });
+//                                   FIN PAQUETES                               //
+//------------------------------------------------------------------------------//
 
 //GET - TRAER TODAS LAS COMPRAS
 //localhost:3000/compras

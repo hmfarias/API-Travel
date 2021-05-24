@@ -9,12 +9,12 @@ const Usuario = sequelize.define(
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
-		es_admin: {
-			type: DataTypes.TINYINT,
-			allowNull: false,
-		},
 		email: {
 			type: DataTypes.STRING,
+			allowNull: false,
+		},
+		es_admin: {
+			type: DataTypes.TINYINT,
 			allowNull: false,
 		},
 	},
