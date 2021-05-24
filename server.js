@@ -12,10 +12,9 @@ const Fecha = require("./models/Fecha");
 const Imagen = require("./models/Imagen");
 const Compra = require("./models/Compra");
 const Usuario = require("./models/Usuario");
-const Asociations = require("./models/Asociations");
-// const db = require("./db/index");
-// const { Op } = require("sequelize");
-// const cors = require("cors");
+const db = require("./db/index");
+const { Op } = require("sequelize");
+const cors = require("cors"); // necesario para que en el front no nos aparezca error de cors
 
 //==========================================================================
 //2. crear la instacia de express
@@ -53,7 +52,7 @@ const rateLimitPolicy = rateLimit({
 app.use(express.json()); // este middleware nos convierte el json del body en objeto de js
 app.use(helmet());
 app.use(compression());
-// app.use(cors());
+app.use(cors());
 
 //==========================================================================
 //4. ENDPOINTS
