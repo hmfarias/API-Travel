@@ -52,7 +52,7 @@ const rateLimitPolicy = rateLimit({
 app.use(express.json()); // este middleware nos convierte el json del body en objeto de js
 app.use(helmet());
 app.use(compression());
-app.use(cors());
+app.use(cors()); // necesario para que en el front no nos aparezca error de cors
 
 //==========================================================================
 //4. ENDPOINTS
@@ -61,7 +61,7 @@ app.use(cors());
 // Testeo de correcta conexión entre modelo y tablas :
 
 app.get("/paquetes", async (req, res) => {
-	const paquete = await Compra.findAll();
+	const paquete = await Paquete.findAll();
 	res.status(200).json(paquete);
 });
 
@@ -94,30 +94,17 @@ app.get("/paquetes", async (req, res) => {
 
 //mysql 4. escribir endpoints el resto
 
+//----------------------------sequelize---------------------------------
 //GET - TRAER TODOS LOS USUARIOS
 //localhost:3000/usuarios
-// app.get("/usuarios", async (req, res) => {
-// 	try {
-// 		const usuarios = await db.query("SELECT * FROM usuario", {
-// 			type: db.QueryTypes.SELECT,
-// 		});
-// 		res.status(200).json(usuarios);
-// 	} catch (error) {
-// 		res.status(500).json({ error: "Intente mas tarde..." });
-// 	}
-// });
-
-//----------------------------sequelize---------------------------------
-//GET - TRAER TODOS LOS USUARIOS V2
-//localhost:3000/usuarios
-// app.get("/usuariosv2", async (req, res) => {
-// 	try {
-// 		const usuarios = await Usuario.findAll();
-// 		res.status(200).json(usuarios);
-// 	} catch (error) {
-// 		res.status(500).json({ error: "Intente mas tarde..." });
-// 	}
-// });
+app.get("/usuarios", async (req, res) => {
+	try {
+		const usuarios = await Usuario.findAll();
+		res.status(200).json(usuarios);
+	} catch (error) {
+		res.status(500).json({ error: "Intente mas tarde..." });
+	}
+});
 //----------------------------END sequelize---------------------------------
 
 //GET - TRAER BANDA/S POR PALABRA CLAVE
