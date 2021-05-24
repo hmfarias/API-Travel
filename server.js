@@ -198,6 +198,18 @@ app.get("/compras", async (req, res) => {
 	}
 });
 
+//GET - TRAER UNA COMPRA POR ID
+//localhost:3000/compras/:idCompra
+app.get("/compras/:idCompra", async (req, res) => {
+	const idCompra = req.params.idCompra;
+	try {
+		const compras = await Compra.findByPk(idCompra);
+		res.status(200).json(compras);
+	} catch (error) {
+		res.status(500).json({ error: "Intente mas tarde..." });
+	}
+});
+
 //GET - TRAER TODOS LOS PAQUETE-COMPRA (PARA PROBAR)
 //localhost:3000/paquete_compra
 app.get("/paquete_compra", async (req, res) => {
