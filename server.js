@@ -126,6 +126,29 @@ app.get("/paquetes", async (req, res) => {
 			include: [
 				{
 					model: Fecha,
+				},
+				{
+					model: Imagen,
+				},
+			],
+		});
+		res.status(200).json(paquetes);
+	} catch (error) {
+		res.status(500).json({ error: "Intente mas tarde..." });
+	}
+});
+
+//GET - TRAER UN PAQUETE POR ID
+//localhost:3000/paquetes/:idPaquete
+app.get("/paquetes/:idPaquete", async (req, res) => {
+	const idPaquete = req.params.idPaquete;
+	try {
+		const paquetes = await Paquete.findByPk(idPaquete, {
+			include: [
+				{
+					model: Fecha,
+				},
+				{
 					model: Imagen,
 				},
 			],
