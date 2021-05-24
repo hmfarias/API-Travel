@@ -106,35 +106,36 @@ app.get("/usuarios", async (req, res) => {
 	}
 });
 
+//GET - TRAER UN USUARIO POR ID
+//localhost:3000/usuarios/idUsuario
+app.get("/usuarios/:idUsuario", async (req, res) => {
+	const idUsuario = req.params.idUsuario;
+	try {
+		const usuario = await Usuario.findByPk(idUsuario);
+		res.status(200).json(usuario);
+	} catch (error) {
+		res.status(500).json({ error: "Intente mas tarde..." });
+	}
+});
+
 //GET - TRAER TODOS LOS PAQUETES
 //localhost:3000/paquetes
 app.get("/paquetes", async (req, res) => {
 	try {
-		const paquetes = await Paquete.findAll();
+		const paquetes = await Paquete.findAll({
+			include: [
+				{
+					model: Fecha,
+					model: Imagen,
+				},
+			],
+		});
 		res.status(200).json(paquetes);
 	} catch (error) {
 		res.status(500).json({ error: "Intente mas tarde..." });
 	}
 });
 //----------------------------END sequelize---------------------------------
-
-//GET - TRAER BANDA/S POR PALABRA CLAVE
-//localhost:3000/bandas/buscar/unaPalabra
-// app.get("/bandas/buscar/:palabra", async (req, res) => {
-// 	const palabra = req.params.palabra;
-// 	try {
-// 		const bandas = await db.query(
-// 			"SELECT * FROM bandas WHERE nombre LIKE :palabraQuery",
-// 			{
-// 				type: db.QueryTypes.SELECT,
-// 				replacements: { palabraQuery: `%${palabra}%` },
-// 			}
-// 		);
-// 		res.status(200).json(bandas);
-// 	} catch (error) {
-// 		res.status(500).json({ error: "Intente mas tarde..." });
-// 	}
-// });
 
 //----------------------------sequelize---------------------------------
 //GET - TRAER BANDA/S POR PALABRA CLAVE - V2
@@ -155,21 +156,6 @@ app.get("/paquetes", async (req, res) => {
 // 	}
 // });
 //---------------------------- END sequelize---------------------------------
-
-//GET - TRAER UNA BANDA POR ID
-//localhost:3000/bandas/idBanda
-// app.get("/bandas/:idBanda", async (req, res) => {
-// 	const idBanda = req.params.idBanda;
-// 	try {
-// 		const bandas = await db.query("SELECT * FROM bandas WHERE id = :id", {
-// 			type: db.QueryTypes.SELECT,
-// 			replacements: { id: idBanda },
-// 		});
-// 		res.status(200).json(bandas);
-// 	} catch (error) {
-// 		res.status(500).json({ error: "Intente mas tarde..." });
-// 	}
-// });
 
 //----------------------------sequelize---------------------------------
 //GET - TRAER UNA BANDA POR ID - V2
