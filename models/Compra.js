@@ -35,6 +35,4 @@ const Compra = sequelize.define(
 	}
 );
 
-// Compra.belongsToMany(Paquete, { through: "paquete_compra" });
-
 module.exports = Compra;

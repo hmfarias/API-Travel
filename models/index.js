@@ -6,27 +6,23 @@ const Paquete = require("./Paquete");
 const Usuario = require("./Usuario");
 
 Paquete.hasMany(Imagen, {
-  foreignKey: "paquete_id",
+	foreignKey: "paquete_id",
 });
 Paquete.hasMany(Fecha, {
-  foreignKey: "paquete_id",
+	foreignKey: "paquete_id",
 });
 
 Usuario.hasMany(Compra, { foreignKey: "usuario_id" });
-
-// PRoblemas para relacionar con la tabla Compra (ANDUVO EN UN MOMENTO):
-
-// Paquete.hasMany(Compra, { foreignKey: "paquete_id" });
 
 Compra.belongsToMany(Paquete, { through: Paquete_Compra });
 
 Paquete.belongsToMany(Compra, { through: Paquete_Compra });
 
 module.exports = {
-  Usuario,
-  Paquete,
-  Compra,
-  PaqueteCompra: Paquete_Compra,
-  Fecha,
-  Imagen,
+	Usuario,
+	Paquete,
+	Compra,
+	PaqueteCompra: Paquete_Compra,
+	Fecha,
+	Imagen,
 };
