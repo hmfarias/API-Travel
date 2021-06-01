@@ -1,3 +1,14 @@
+// VALIDAR SI ES USUARIO ADMINISTRADOR
+function validateAdmin(req, res, next) {
+	if (req.user.es_admin != 1) {
+		res.status(401).json({
+			error: "el usuario No es ADMINISTRADOR",
+		});
+	} else {
+		next();
+	}
+}
+
 // VALIDAR BODY PARA UNA COMPRA al hacer un POST
 function validateCompraBody(req, res, next) {
 	const msgError = [];
@@ -11,17 +22,24 @@ function validateCompraBody(req, res, next) {
 		: next();
 }
 
-//const { Banda } = require("../models/Bandas");
-
-// function validateAdmin(req, res, next) {
-// 	if (!req.user.admin) {
-// 		res.status(401).json({
-// 			error: "el usuario No es ADMINISTRADOR",
-// 		});
-// 	} else {
-// 		next();
-// 	}
-// }
+// VALIDAR BODY AL CARGAR UN PAQUETE
+function validatePaqueteBody(req, res, next) {
+	const msgError = [];
+	!req.body.precio && msgError.push("El precio es obligatorio");
+	!req.body.destino && msgError.push("El destino es obligatorio");
+	!req.body.comidas &&
+		msgError.push("La descripción de las comidas es obligatoria");
+	!req.body.alojamiento &&
+		msgError.push("Los datos sobre el alojamiento son obligatorios");
+	!req.body.duracion && msgError.push("La duración del viaje es obligatoria");
+	!req.body.descripcion &&
+		msgError.push("La descripcion del viaje es obligatoria");
+	!req.body.pasajeros &&
+		msgError.push("La cantidad de pasajeros es obligatoria");
+	msgError.length > 0
+		? res.status(400).json({ error: msgError.join(",") })
+		: next();
+}
 
 //VALIDAR EXISTENCIA DE LA BANDA
 // async function validateBandExists(req, res, next) {
@@ -59,11 +77,7 @@ function validateCompraBody(req, res, next) {
 // }
 //
 module.exports = {
+	validateAdmin,
 	validateCompraBody,
+	validatePaqueteBody,
 };
-
-// module.exports = {
-// 	validateAdmin,
-// 	validateBandExists,
-// 	validateBandBody,
-// };

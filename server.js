@@ -2,8 +2,8 @@
 //1. importar express y demas librerias
 //==========================================================================
 const express = require("express");
-// const expressJwt = require("express-jwt");
-// const jwt = require("jsonwebtoken");
+const expressJwt = require("express-jwt");
+const jwt = require("jsonwebtoken");
 const helmet = require("helmet");
 const compression = require("compression");
 const rateLimit = require("express-rate-limit");
@@ -37,7 +37,11 @@ const rateLimitPolicy = rateLimit({
 //==========================================================================
 // 3.1 crear middlewares propios de nuestra API
 //==========================================================================
-const { validateCompraBody } = require("./middlewares/index.js");
+const {
+	validateAdmin,
+	validateCompraBody,
+	validatePaqueteBody,
+} = require("./middlewares/index.js");
 //const { response } = require("express");
 
 //==========================================================================
@@ -45,13 +49,14 @@ const { validateCompraBody } = require("./middlewares/index.js");
 //==========================================================================
 //mysql 1. proteger todos los endpoints menos el de login usando express-jwt como middleware global
 // por nada en la vida expongan esta cadena NADAAAAA!!!!
-// const secretJWT = "poneralgosupercompicadoconnumerosycaracteres123+5";
-// app.use(
-// 	expressJwt({
-// 		secret: secretJWT,
-// 		algorithms: ["HS256"],
-// 	}).unless({ path: ["/login"] })
-// );
+const secretJWT = "poneralgosupercompicadoconnumerosycaracteres123+5";
+app.use(
+	expressJwt({
+		secret: secretJWT,
+		algorithms: ["HS256"],
+	}).unless({ path: ["/login"] })
+);
+
 app.use(express.json()); // este middleware nos convierte el json del body en objeto de js
 app.use(helmet());
 app.use(compression());
@@ -70,33 +75,31 @@ app.use(cors()); // necesario para que en el front no nos aparezca error de cors
 
 //mysql 2. escribir el endpoint de login
 //localhost:3000/login
+app.post("/login", async (req, res) => {
+	const emailPost = req.body.email;
+	const passwordPost = req.body.password;
+	const usuarioValidado = await Usuario.findOne({
+		email: emailPost,
+		password: passwordPost,
+	});
 
-// ESTO ESTÁ LISTO Y FUNCIONANDO, PERO SE COMENTA PARA QUE NO SEA TAN COMPLICADO CONSULTAR EL RESTO DE LOS ENDPOINTS
-// app.post("/login", async (req, res) => {
-// 	const emailPost = req.body.email;
-// 	const passwordPost = req.body.password;
-// 	const usuarioValidado = await Usuario.findOne({
-// 		email: emailPost,
-// 		password: passwordPost,
-// 	});
-
-// 	if (!usuarioValidado) {
-// 		res.status(401).json({
-// 			error: "usuario o contraseña inválida",
-// 		});
-// 	} else {
-// 		//mysql 3. crear el token
-// 		const token = jwt.sign(
-// 			{
-// 				email: usuarioValidado.email,
-// 				es_admin: usuarioValidado.es_admin,
-// 			},
-// 			secretJWT,
-// 			{ expiresIn: "60m" }
-// 		);
-// 		res.status(200).json({ token });
-// 	}
-// });
+	if (!usuarioValidado) {
+		res.status(401).json({
+			error: "usuario o contraseña inválida",
+		});
+	} else {
+		//mysql 3. crear el token
+		const token = jwt.sign(
+			{
+				email: usuarioValidado.email,
+				es_admin: usuarioValidado.es_admin,
+			},
+			secretJWT,
+			{ expiresIn: "60m" }
+		);
+		res.status(200).json({ token });
+	}
+});
 
 //mysql 4. escribir endpoints el resto
 
@@ -105,7 +108,7 @@ app.use(cors()); // necesario para que en el front no nos aparezca error de cors
 //------------------------------------------------------------------------------//
 //GET - TRAER TODOS LOS USUARIOS
 //localhost:3000/usuarios
-app.get("/usuarios", async (req, res) => {
+app.get("/usuarios", validateAdmin, async (req, res) => {
 	try {
 		const usuarios = await Usuario.findAll({
 			include: [
@@ -140,7 +143,7 @@ app.get("/usuarios/:idUsuario", async (req, res) => {
 
 //POST - AGREGAR UN USUARIO
 //localhost:3000/usuarios
-app.post("/usuarios", async (req, res) => {
+app.post("/usuarios", validateAdmin, async (req, res) => {
 	try {
 		const usuario = await Usuario.create({
 			password: req.body.password,
@@ -160,7 +163,7 @@ app.post("/usuarios", async (req, res) => {
 //------------------------------------------------------------------------------//
 //GET - TRAER TODOS LOS PAQUETES
 //localhost:3000/paquetes
-app.get("/paquetes", async (req, res) => {
+app.get("/paquetes", validateAdmin, async (req, res) => {
 	try {
 		const paquetes = await Paquete.findAll({
 			include: [
@@ -198,6 +201,25 @@ app.get("/paquetes/:idPaquete", async (req, res) => {
 		res.status(500).json({ error: "Intente mas tarde..." });
 	}
 });
+
+//POST - AGREGAR UN PAQUETE
+//localhost:3000/paquetes
+app.post("/paquetes", validatePaqueteBody, async (req, res) => {
+	try {
+		const paquete = await Paquete.create({
+			precio: req.body.precio,
+			destino: req.body.destino,
+			comidas: req.body.comidas,
+			alojamiento: req.body.alojamiento,
+			duracion: req.body.duracion,
+			descripcion: req.body.descripcion,
+			pasajeros: req.body.pasajeros,
+		});
+		res.status(200).json(paquete);
+	} catch (error) {
+		res.status(500).json({ error: "Intente mas tarde..." });
+	}
+});
 //                                   FIN PAQUETES                               //
 //------------------------------------------------------------------------------//
 
@@ -205,7 +227,7 @@ app.get("/paquetes/:idPaquete", async (req, res) => {
 //                                   COMPRAS                                    //
 //GET - TRAER TODAS LAS COMPRAS
 //localhost:3000/compras
-app.get("/compras", async (req, res) => {
+app.get("/compras", validateAdmin, async (req, res) => {
 	try {
 		const compras = await Compra.findAll();
 		res.status(200).json(compras);
@@ -262,7 +284,7 @@ app.delete("/compras/:idCompra", async (req, res) => {
 
 //PUT - MODIFICAR UNA COMPRA POR ID
 //localhost:3000/compras/idCompra
-app.put("/compras/:idCompra", async (req, res) => {
+app.put("/compras/:idCompra", validateAdmin, async (req, res) => {
 	const idCompra = req.params.idCompra;
 	console.log(req.body);
 	try {
@@ -292,7 +314,7 @@ app.put("/compras/:idCompra", async (req, res) => {
 
 //GET - TRAER TODOS LOS PAQUETE-COMPRA (PARA PROBAR)
 //localhost:3000/paquete_compra
-app.get("/paquete_compra", async (req, res) => {
+app.get("/paquete_compra", validateAdmin, async (req, res) => {
 	try {
 		const paquete_compra = await PaqueteCompra.findAll();
 		res.status(200).json(paquete_compra);
