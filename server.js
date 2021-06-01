@@ -95,7 +95,7 @@ app.post("/login", async (req, res) => {
 				es_admin: usuarioValidado.es_admin,
 			},
 			secretJWT,
-			{ expiresIn: "60m" }
+			{ expiresIn: "120m" }
 		);
 		res.status(200).json({ token });
 	}
@@ -166,14 +166,7 @@ app.post("/usuarios", validateAdmin, async (req, res) => {
 app.get("/paquetes", validateAdmin, async (req, res) => {
 	try {
 		const paquetes = await Paquete.findAll({
-			include: [
-				{
-					model: Fecha,
-				},
-				{
-					model: Imagen,
-				},
-			],
+			include: [{ model: Fecha }, { model: Imagen }],
 		});
 		res.status(200).json(paquetes);
 	} catch (error) {
@@ -216,6 +209,32 @@ app.post("/paquetes", validatePaqueteBody, async (req, res) => {
 			pasajeros: req.body.pasajeros,
 		});
 
+		const idPaquete = paquete.id;
+
+		// agrego fechas
+		const fechasPost = req.body.fecha_paquete;
+		console.log("fechasPost");
+		console.log(fechasPost);
+		console.log(req.body);
+
+		for (let index = 0; index < fechasPost.length; index++) {
+			const fecha = fechasPost[index];
+			const fechas = await Fecha.create({
+				fecha: fecha,
+				paquete_id: idPaquete,
+			});
+		}
+
+		// agrego imagenes
+		const imagenesPost = req.body.imagen_paquete;
+		for (let index = 0; index < imagenesPost.length; index++) {
+			const url = imagenesPost[index];
+			const urls = await Imagen.create({
+				url: url,
+				paquete_id: idPaquete,
+			});
+		}
+
 		res.status(200).json(paquete);
 	} catch (error) {
 		res.status(500).json({ error: "Intente mas tarde..." });
@@ -255,11 +274,27 @@ app.put(
 		}
 	}
 );
-//DELETE - ELIMINAR UNA COMPRA POR ID
+//DELETE - ELIMINAR UN PAQUETE POR ID
 //localhost:3000/compras/idCompra
 app.delete("/paquetes/:idPaquete", async (req, res) => {
 	const idPaquete = req.params.idPaquete;
 	try {
+		// elimino fechas del paquete
+		const fecha = await Fecha.destroy({
+			where: {
+				paquete_id: {
+					[Op.eq]: idPaquete,
+				},
+			},
+		});
+		// elimino imágenes del paquete
+		const imagen = await Imagen.destroy({
+			where: {
+				paquete_id: {
+					[Op.eq]: idPaquete,
+				},
+			},
+		});
 		const paquete = await Paquete.destroy({
 			where: {
 				id: {
@@ -267,6 +302,7 @@ app.delete("/paquetes/:idPaquete", async (req, res) => {
 				},
 			},
 		});
+
 		res.status(200).json(paquete);
 	} catch (error) {
 		res.status(500).json({ error: "Intente mas tarde..." });

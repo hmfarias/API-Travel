@@ -15,6 +15,9 @@ Imagen.belongsTo(Paquete, {
 Paquete.hasMany(Fecha, {
 	foreignKey: "paquete_id",
 });
+Fecha.belongsTo(Paquete, {
+	foreignKey: "paquete_id",
+});
 
 Usuario.hasMany(Compra, { foreignKey: "usuario_id" });
 
