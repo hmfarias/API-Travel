@@ -8,6 +8,10 @@ const Usuario = require("./Usuario");
 Paquete.hasMany(Imagen, {
 	foreignKey: "paquete_id",
 });
+Imagen.belongsTo(Paquete, {
+	foreignKey: "paquete_id",
+});
+
 Paquete.hasMany(Fecha, {
 	foreignKey: "paquete_id",
 });

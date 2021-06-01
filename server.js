@@ -14,7 +14,7 @@ const {
 	Usuario,
 	Compra,
 	Imagen,
-} = require("./models");
+} = require("./models/Associations");
 const db = require("./db/index");
 const { Op } = require("sequelize");
 const cors = require("cors"); // necesario para que en el front no nos aparezca error de cors
@@ -215,11 +215,64 @@ app.post("/paquetes", validatePaqueteBody, async (req, res) => {
 			descripcion: req.body.descripcion,
 			pasajeros: req.body.pasajeros,
 		});
+
 		res.status(200).json(paquete);
 	} catch (error) {
 		res.status(500).json({ error: "Intente mas tarde..." });
 	}
 });
+
+//PUT - MODIFICAR UN PAQUETE POR ID
+//localhost:3000/paquetes/idCompra
+app.put(
+	"/paquetes/:idPaquete",
+	validateAdmin,
+	validatePaqueteBody,
+	async (req, res) => {
+		const idPaquete = req.params.idPaquete;
+		try {
+			const paquete = await Paquete.update(
+				{
+					precio: req.body.precio,
+					destino: req.body.destino,
+					comidas: req.body.comidas,
+					alojamiento: req.body.alojamiento,
+					duracion: req.body.duracion,
+					descripcion: req.body.descripcion,
+					pasajeros: req.body.pasajeros,
+				},
+				{
+					where: {
+						id: {
+							[Op.eq]: idPaquete,
+						},
+					},
+				}
+			);
+			res.status(200).json(paquete);
+		} catch (error) {
+			res.status(500).json({ error: "Intente mas tarde... modifica paquete" });
+		}
+	}
+);
+//DELETE - ELIMINAR UNA COMPRA POR ID
+//localhost:3000/compras/idCompra
+app.delete("/paquetes/:idPaquete", async (req, res) => {
+	const idPaquete = req.params.idPaquete;
+	try {
+		const paquete = await Paquete.destroy({
+			where: {
+				id: {
+					[Op.eq]: idPaquete,
+				},
+			},
+		});
+		res.status(200).json(paquete);
+	} catch (error) {
+		res.status(500).json({ error: "Intente mas tarde..." });
+	}
+});
+
 //                                   FIN PAQUETES                               //
 //------------------------------------------------------------------------------//
 
@@ -284,30 +337,35 @@ app.delete("/compras/:idCompra", async (req, res) => {
 
 //PUT - MODIFICAR UNA COMPRA POR ID
 //localhost:3000/compras/idCompra
-app.put("/compras/:idCompra", validateAdmin, async (req, res) => {
-	const idCompra = req.params.idCompra;
-	console.log(req.body);
-	try {
-		const compra = await Compra.update(
-			{
-				cantidad: req.body.cantidad,
-				fecha: req.body.fecha,
-				usuario_id: req.body.usuario_id,
-				fecha_viaje: req.body.usuario_id,
-			},
-			{
-				where: {
-					id: {
-						[Op.eq]: idCompra,
-					},
+app.put(
+	"/compras/:idCompra",
+	validateAdmin,
+	validateCompraBody,
+	async (req, res) => {
+		const idCompra = req.params.idCompra;
+		console.log(req.body);
+		try {
+			const compra = await Compra.update(
+				{
+					cantidad: req.body.cantidad,
+					fecha: req.body.fecha,
+					usuario_id: req.body.usuario_id,
+					fecha_viaje: req.body.usuario_id,
 				},
-			}
-		);
-		res.status(200).json(compra);
-	} catch (error) {
-		res.status(500).json({ error: "Intente mas tarde... modifica compra" });
+				{
+					where: {
+						id: {
+							[Op.eq]: idCompra,
+						},
+					},
+				}
+			);
+			res.status(200).json(compra);
+		} catch (error) {
+			res.status(500).json({ error: "Intente mas tarde... modifica compra" });
+		}
 	}
-});
+);
 
 //                                  FIN COMPRAS                                 //
 //------------------------------------------------------------------------------//
@@ -342,156 +400,6 @@ app.get("/paquete_compra", validateAdmin, async (req, res) => {
 // 	}
 // });
 //---------------------------- END sequelize---------------------------------
-
-//----------------------------sequelize---------------------------------
-//GET - TRAER BANDAS SOLISTAS - V2
-//localhost:3000/bandasv2/solista
-// app.get("/bandasv2/solista/:numIntegrantes", async (req, res) => {
-// 	const integrantes = req.params.numIntegrantes;
-// 	try {
-// 		const bandas = await Bandas.findAll({
-// 			where: {
-// 				integrantes: integrantes,
-// 			},
-// 		});
-// 		res.status(200).json(bandas);
-// 	} catch (error) {
-// 		res.status(500).json({ error: "Intente mas tarde..." });
-// 	}
-// });
-//---------------------------- END sequelize---------------------------------
-
-//POST - AGREGAR UNA BANDA
-//localhost:3000/bandas
-// app.post("/bandas", validateBandBody, async (req, res) => {
-// 	try {
-// 		const banda = await db.query(
-// 			"INSERT INTO bandas (nombre, integrantes, fecha_inicio, fecha_separacion, pais) values (?,?,?,?,?)",
-// 			{
-// 				type: db.QueryTypes.INSERT,
-// 				replacements: [
-// 					req.body.nombre,
-// 					req.body.integrantes,
-// 					req.body.fecha_inicio,
-// 					req.body.fecha_separacion,
-// 					req.body.pais,
-// 				],
-// 			}
-// 		);
-// 		res.status(200).json(banda);
-// 	} catch (error) {
-// 		res.status(500).json({ error: "Intente mas tarde..." });
-// 	}
-// });
-
-//----------------------------sequelize---------------------------------
-//POST - AGREGAR UNA BANDA - V2
-//localhost:3000/bandasv2
-// app.post("/bandasv2", validateBandBody, async (req, res) => {
-// 	console.log("entra en agregar banda v2");
-// 	try {
-// 		const banda = await Bandas.create({
-// 			nombre: req.body.nombre,
-// 			integrantes: req.body.integrantes,
-// 			fecha_inicio: req.body.fecha_inicio,
-// 			fecha_separacion: req.body.fecha_separacion,
-// 			pais: req.body.pais,
-// 		});
-// 		res.status(200).json(banda);
-// 	} catch (error) {
-// 		res.status(500).json({ error: "Intente mas tarde..." });
-// 	}
-// });
-//---------------------------- END sequelize---------------------------------
-
-//PUT - MODIFICAR UNA BANDA POR ID
-//localhost:3000/bandas/idBanda
-// app.put("/bandas/:idBanda", validateBandBody, async (req, res) => {
-// 	const idBanda = req.params.idBanda;
-// 	try {
-// 		const banda = await db.query(
-// 			"UPDATE bandas SET nombre = ?, integrantes= ?, fecha_inicio = ?, fecha_separacion = ?, pais = ? WHERE id = ?",
-// 			{
-// 				type: db.QueryTypes.UPDATE,
-// 				replacements: [
-// 					req.body.nombre,
-// 					req.body.integrantes,
-// 					req.body.fecha_inicio,
-// 					req.body.fecha_separacion,
-// 					req.body.pais,
-// 					idBanda,
-// 				],
-// 			}
-// 		);
-// 		res.status(200).json(banda);
-// 	} catch (error) {
-// 		res.status(500).json({ error: "Intente mas tarde..." });
-// 	}
-// });
-
-//----------------------------sequelize---------------------------------
-//PUT - MODIFICAR UNA BANDA POR ID - V2
-//localhost:3000/bandas/idBanda
-// app.put("/bandasv2/:idBanda", validateBandBody, async (req, res) => {
-// 	const idBanda = req.params.idBanda;
-// 	try {
-// 		const banda = await Bandas.update(
-// 			{
-// 				nombre: req.body.nombre,
-// 				integrantes: req.body.integrantes,
-// 				fecha_inicio: req.body.fecha_inicio,
-// 				fecha_separacion: req.body.fecha_separacion,
-// 				pais: req.body.pais,
-// 			},
-// 			{
-// 				where: {
-// 					id: {
-// 						[Op.eq]: idBanda,
-// 					},
-// 				},
-// 			}
-// 		);
-// 		res.status(200).json(banda);
-// 	} catch (error) {
-// 		res.status(500).json({ error: "Intente mas tarde..." });
-// 	}
-// });
-//----------------------------END sequelize---------------------------------
-
-//DELETE - ELIMINAR UNA BANDA POR ID
-//localhost:3000/bandas/idBanda
-// app.delete("/bandas/:idBanda", async (req, res) => {
-// 	const idBanda = req.params.idBanda;
-// 	try {
-// 		const banda = await db.query("DELETE FROM bandas WHERE id = :id", {
-// 			type: db.QueryTypes.DELETE,
-// 			replacements: { id: idBanda },
-// 		});
-// 		res.status(200).json(banda);
-// 	} catch (error) {
-// 		res.status(500).json({ error: "Intente mas tarde..." });
-// 	}
-// });
-
-//----------------------------sequelize---------------------------------
-//DELETE - ELIMINAR UNA BANDA POR ID - V2
-//localhost:3000/bandasv2/idBanda
-// app.delete("/bandasv2/:idBanda", async (req, res) => {
-// 	const idBanda = req.params.idBanda;
-// 	try {
-// 		const banda = await Bandas.destroy({
-// 			where: {
-// 				id: {
-// 					[Op.eq]: idBanda,
-// 				},
-// 			},
-// 		});
-// 		res.status(200).json(banda);
-// 	} catch (error) {
-// 		res.status(500).json({ error: "Intente mas tarde..." });
-// 	}
-// });
-//----------------------------END sequelize---------------------------------
 
 //==========================================================================
 //5. levantar el servidor
