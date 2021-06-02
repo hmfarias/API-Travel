@@ -1,0 +1,348 @@
+{
+	"info": {
+		"_postman_id": "ff295db4-d255-4218-add1-55041c6ec5ac",
+		"name": "API Travel",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Traer TODOS los PAQUETES",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/paquetes",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"paquetes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Traer TODOS los USUARIOS",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "Traer TODAS las COMPRAS",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "Traer COMPRA por ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "Traer USUARIOS por ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "Traer un PAQUETE por ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/paquetes/:idPaquete",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"paquetes",
+						":idPaquete"
+					],
+					"variable": [
+						{
+							"key": "idPaquete",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Traer TODOS los PAQUETE-COMPRA (para probar)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbnlAZ21haWwuY29tIiwiZXNfYWRtaW4iOjEsImlhdCI6MTYyMjU1NjIzNywiZXhwIjoxNjIyNTU5ODM3fQ.OU8LDW8CrVn-aHLM1bFCwqQg8o_NIYCXSVusnOIwqvE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/paquete_compra",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"paquete_compra"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LOGIN",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"santi@gmail.com\",\n\t\"password\": \"1234\"\n}\n\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/login",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Agregar un PAQUETE",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbnlAZ21haWwuY29tIiwiZXNfYWRtaW4iOjEsImlhdCI6MTYyMjU3NzIzMiwiZXhwIjoxNjIyNTgwODMyfQ.-0v4O19eyzb2F890zvJDHyfzuC1vFM4MF-1SCCWPrQI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"precio\": 190000,\n    \"destino\": \"Bahamas\",\n    \"comidas\": \"ALL INCLUSIVE\",\n    \"alojamiento\": \"The Cove at Atlantis\",\n    \"duracion\": 20,\n    \"descripcion\": \"Este complejo Atlantis ofrece suites de lujo frente al océano, una gran piscina al aire libre exclusiva para adultos y una zona priva playa. También alberga varios sitios para comer y zonas de juego.\",\n    \"pasajeros\": 1,\n    \"fecha_paquetes\": [\n        {\"fecha\": \"2022-01-10T00:00:00.000Z\"},\n        {\"fecha\": \"2022-01-20T00:00:00.000Z\"},\n        {\"fecha\": \"2022-01-30T00:00:00.000Z\"}\n    ],\n    \"imagen_paquetes\": [\n        {\"url\": \"https://cf.bstatic.com/xdata/images/hotel/max1280x900/118100569.webp?k=f251529c632366b38d6a91222e52d86c17ec0e288dc069e0e8082ebe187dfddf&o=\"}\n    ]\n}\n\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/paquetes",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"paquetes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Agregar una COMPRA",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"cantidad\": 7,\n    \"fecha\": \"2021-05-20T00:00:00.000Z\",\n    \"usuario_id\": 4,\n    \"fecha_viaje\": \"2022-01-01T00:00:00.000Z\"\n}\n\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/compras",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"compras"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Agregar un USUARIO",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"password\": 12345,\n    \"email\": \"fede@gmail.com\",\n    \"es_admin\": 0\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/usuarios",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"usuarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar un PAQUETE",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbnlAZ21haWwuY29tIiwiZXNfYWRtaW4iOjEsImlhdCI6MTYyMjU3NzIzMiwiZXhwIjoxNjIyNTgwODMyfQ.-0v4O19eyzb2F890zvJDHyfzuC1vFM4MF-1SCCWPrQI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"precio\": 160000,\n    \"destino\": \"Orlando - Florida\",\n    \"comidas\": \"Sin régimen de comidas\",\n    \"alojamiento\": \"Rosen Inn\",\n    \"duracion\": 7,\n    \"descripcion\": \"Incluye Seguro y traslado privado, El alojamiento ofrece Pscina, WIFI gratis en zonas comunes, Servicio a la Habitación\",\n    \"pasajeros\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/paquetes/2",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"paquetes",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar una COMPRA",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbnlAZ21haWwuY29tIiwiZXNfYWRtaW4iOjEsImlhdCI6MTYyMjU1NjIzNywiZXhwIjoxNjIyNTU5ODM3fQ.OU8LDW8CrVn-aHLM1bFCwqQg8o_NIYCXSVusnOIwqvE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"cantidad\": 15,\n    \"fecha\": \"2021-05-20\",\n    \"usuario_id\": 4,\n    \"fecha_viaje\": \"2022-01-01\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/compras/8",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"compras",
+						"8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar una COMPRA",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/bandas/6",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"bandas",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar un PAQUETE",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/paquetes/4",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"paquetes",
+						"4"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
