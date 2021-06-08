@@ -211,8 +211,7 @@ app.post("/paquetes", validatePaqueteBody, async (req, res) => {
         fecha_paquetes: req.body.fecha_paquetes,
         imagen_paquetes: req.body.imagen_paquetes,
       },
-      { include: [Fecha, Imagen] }
-    );
+      { include: [Fecha, Imagen] } //this creates the corresponding entries in the related tables: Fecha and Imagen
 
     res.status(200).json(paquete);
   } catch (error) {
