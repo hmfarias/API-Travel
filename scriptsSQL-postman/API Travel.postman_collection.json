@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "ff295db4-d255-4218-add1-55041c6ec5ac",
+		"_postman_id": "6a644c8d-efe7-4736-8af4-264cef2c921a",
 		"name": "API Travel",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -28,7 +28,9 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": null
+				"url": {
+					"raw": ""
+				}
 			},
 			"response": []
 		},
@@ -37,7 +39,9 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": null
+				"url": {
+					"raw": ""
+				}
 			},
 			"response": []
 		},
@@ -46,7 +50,9 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": null
+				"url": {
+					"raw": ""
+				}
 			},
 			"response": []
 		},
@@ -55,7 +61,9 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": null
+				"url": {
+					"raw": ""
+				}
 			},
 			"response": []
 		},
@@ -179,11 +187,21 @@
 		{
 			"name": "Agregar una COMPRA",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbnlAZ21haWwuY29tIiwiZXNfYWRtaW4iOjEsImlhdCI6MTYyMzM3MDAzOSwiZXhwIjoxNjIzMzc3MjM5fQ.w6_DxspnsJJcKnzl16_vLk5Oq-f_xL-r48ZObFVFKUk",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"cantidad\": 7,\n    \"fecha\": \"2021-05-20T00:00:00.000Z\",\n    \"usuario_id\": 4,\n    \"fecha_viaje\": \"2022-01-01T00:00:00.000Z\"\n}\n\n",
+					"raw": "{\n    \"cantidad\": 7,\n    \"fecha\": \"2021-05-20T00:00:00.000Z\",\n    \"usuario_id\": 4,\n    \"fecha_viaje\": \"2022-01-01T00:00:00.000Z\",\n    \"paquetes\": [\n            {\n            \"id\": 1,\n            \"precio\": 197789,\n            \"destino\": \"Miami - Florida\",\n            \"comidas\": \"Desayuno\",\n            \"alojamiento\": \"Holiday Inn Express & Suites Kendall\",\n            \"duracion\": 7,\n            \"descripcion\": \"Incluye Seguro, El alojamiento ofrece Pscina, WIFI gratis en zonas comunes, estacionamiento Gratis \",\n            \"pasajeros\": 1,\n            \"paquete_compra\": {\n                \"compra_id\": 1,\n                \"paquete_id\": 1,\n                \"compraId\": 1,\n                \"paqueteId\": 1\n            }\n        }\n    ]\n}\n\n",
 					"options": {
 						"raw": {
 							"language": "json"

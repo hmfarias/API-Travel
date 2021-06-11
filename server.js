@@ -322,12 +322,16 @@ app.get("/compras/:idCompra", async (req, res) => {
 //localhost:3000/compras
 app.post("/compras", validateCompraBody, async (req, res) => {
 	try {
-		const compra = await Compra.create({
-			cantidad: req.body.cantidad,
-			fecha: req.body.fecha,
-			usuario_id: req.body.usuario_id,
-			fecha_viaje: req.body.fecha_viaje,
-		});
+		const compra = await Compra.create(
+			{
+				cantidad: req.body.cantidad,
+				fecha: req.body.fecha,
+				usuario_id: req.body.usuario_id,
+				fecha_viaje: req.body.fecha_viaje,
+				paquetes: req.body.paquetes,
+			},
+			{ include: [Paquete] } ////this creates the corresponding entries in the related table: Paquete
+		);
 		res.status(200).json(compra);
 	} catch (error) {
 		res.status(500).json({ error: "Intente mas tarde..." });
