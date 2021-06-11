@@ -1,5 +1,5 @@
 //==========================================================================
-//1. importar express y demas librerias
+//1. Import Express and other libraries
 //==========================================================================
 const express = require("express");
 const expressJwt = require("express-jwt");
@@ -17,25 +17,25 @@ const {
 } = require("./models/Associations");
 const db = require("./db/index");
 const { Op } = require("sequelize");
-const cors = require("cors"); // necesario para que en el front no nos aparezca error de cors
+const cors = require("cors"); // necessary so that in the front does not appear cors error
 
 //==========================================================================
-//2. crear la instacia de express
+//2. Create the Express instance
 //==========================================================================
-const app = express();
+const app = express(); //prueba
 
 //==========================================================================
-//3. agregar middlewares globales
+//3. Add Global Middleware
 //==========================================================================
 
 const rateLimitPolicy = rateLimit({
 	message: "intente de nuevo mas tarde",
 	max: 10,
-	windowMs: 5 * 60 * 1000, //minutos * 60 * 1000
+	windowMs: 5 * 60 * 1000, //minutes * 60 * 1000
 });
 
 //==========================================================================
-// 3.1 crear middlewares propios de nuestra API
+// 3.1 Create Middlewares of our API
 //==========================================================================
 const {
 	validateAdmin,
@@ -45,10 +45,10 @@ const {
 //const { response } = require("express");
 
 //==========================================================================
-// usar las librerias
+// Use the libraries.
 //==========================================================================
-//mysql 1. proteger todos los endpoints menos el de login usando express-jwt como middleware global
-// por nada en la vida expongan esta cadena NADAAAAA!!!!
+//mysql 1. Protect all endpoints minus the login using Express-JWT as global Middleware
+// for nothing in life, this chain must be exposed!!!
 const secretJWT = "poneralgosupercompicadoconnumerosycaracteres123+5";
 app.use(
 	expressJwt({
@@ -57,23 +57,23 @@ app.use(
 	}).unless({ path: ["/login"] })
 );
 
-app.use(express.json()); // este middleware nos convierte el json del body en objeto de js
+app.use(express.json()); // This Middleware makes us the JSON of the Body in the object of JS
 app.use(helmet());
 app.use(compression());
-app.use(cors()); // necesario para que en el front no nos aparezca error de cors
+app.use(cors()); // necessary so that in the front does not appear cors error
 
 //==========================================================================
 //4. ENDPOINTS
 //==========================================================================
 
-// Testeo de correcta conexión entre modelo y tablas :
+// Testing of correct connection between model and tables:
 
 // app.get("/paquetes", async (req, res) => {
 // 	const paquete = await Paquete.findAll();
 // 	res.status(200).json(paquete);
 // });
 
-//mysql 2. escribir el endpoint de login
+//mysql 2. Write the login endpoint
 //localhost:3000/login
 app.post("/login", async (req, res) => {
 	const emailPost = req.body.email;
@@ -88,7 +88,7 @@ app.post("/login", async (req, res) => {
 			error: "usuario o contraseña inválida",
 		});
 	} else {
-		//mysql 3. crear el token
+		//mysql 3. Create the Token.
 		const token = jwt.sign(
 			{
 				email: usuarioValidado.email,
@@ -101,12 +101,12 @@ app.post("/login", async (req, res) => {
 	}
 });
 
-//mysql 4. escribir endpoints el resto
+//mysql 4. write endpoints the rest
 
 //------------------------------------------------------------------------------//
-//                                   USUARIOS                                   //
+//                                   Users                                   //
 //------------------------------------------------------------------------------//
-//GET - TRAER TODOS LOS USUARIOS
+//GET - Bring all users
 //localhost:3000/usuarios
 app.get("/usuarios", validateAdmin, async (req, res) => {
 	try {
@@ -129,7 +129,7 @@ app.get("/usuarios", validateAdmin, async (req, res) => {
 	}
 });
 
-//GET - TRAER UN USUARIO POR ID
+//GET - Bring a user by ID
 //localhost:3000/usuarios/idUsuario
 app.get("/usuarios/:idUsuario", async (req, res) => {
 	const idUsuario = req.params.idUsuario;
@@ -141,7 +141,7 @@ app.get("/usuarios/:idUsuario", async (req, res) => {
 	}
 });
 
-//POST - AGREGAR UN USUARIO
+//POST - Add a user
 //localhost:3000/usuarios
 app.post("/usuarios", validateAdmin, async (req, res) => {
 	try {
@@ -155,13 +155,13 @@ app.post("/usuarios", validateAdmin, async (req, res) => {
 		res.status(500).json({ error: "Intente mas tarde..." });
 	}
 });
-//                                   FIN USUARIOS                               //
+//                                   End users                         //
 //------------------------------------------------------------------------------//
 
 //------------------------------------------------------------------------------//
-//                                   PAQUETES                                   //
+//                                   PACKAGES                                   //
 //------------------------------------------------------------------------------//
-//GET - TRAER TODOS LOS PAQUETES
+//GET - Bring all the packets
 //localhost:3000/paquetes
 app.get("/paquetes", validateAdmin, async (req, res) => {
 	try {
@@ -174,7 +174,7 @@ app.get("/paquetes", validateAdmin, async (req, res) => {
 	}
 });
 
-//GET - TRAER UN PAQUETE POR ID
+//GET - Bring a package by ID
 //localhost:3000/paquetes/:idPaquete
 app.get("/paquetes/:idPaquete", async (req, res) => {
 	const idPaquete = req.params.idPaquete;
@@ -195,7 +195,7 @@ app.get("/paquetes/:idPaquete", async (req, res) => {
 	}
 });
 
-//POST - AGREGAR UN PAQUETE
+//POST - Add a package.
 //localhost:3000/paquetes
 app.post("/paquetes", validatePaqueteBody, async (req, res) => {
 	try {
@@ -220,7 +220,7 @@ app.post("/paquetes", validatePaqueteBody, async (req, res) => {
 	}
 });
 
-//PUT - MODIFICAR UN PAQUETE POR ID
+//PUT - Modify a package by ID
 //localhost:3000/paquetes/idCompra
 app.put(
 	"/paquetes/:idPaquete",
@@ -253,12 +253,12 @@ app.put(
 		}
 	}
 );
-//DELETE - ELIMINAR UN PAQUETE POR ID
+//DELETE - Delete a package by ID
 //localhost:3000/compras/idCompra
 app.delete("/paquetes/:idPaquete", async (req, res) => {
 	const idPaquete = req.params.idPaquete;
 	try {
-		// elimino fechas del paquete
+		// Removing package dates
 		const fecha = await Fecha.destroy({
 			where: {
 				paquete_id: {
@@ -266,7 +266,7 @@ app.delete("/paquetes/:idPaquete", async (req, res) => {
 				},
 			},
 		});
-		// elimino imágenes del paquete
+		//Removing package images
 		const imagen = await Imagen.destroy({
 			where: {
 				paquete_id: {
@@ -288,23 +288,25 @@ app.delete("/paquetes/:idPaquete", async (req, res) => {
 	}
 });
 
-//                                   FIN PAQUETES                               //
+//                                  End packages.                       //
 //------------------------------------------------------------------------------//
 
 //------------------------------------------------------------------------------//
-//                                   COMPRAS                                    //
-//GET - TRAER TODAS LAS COMPRAS
+//                                   PURCHASES                                    //
+//GET - Bring all purchases
 //localhost:3000/compras
 app.get("/compras", validateAdmin, async (req, res) => {
 	try {
-		const compras = await Compra.findAll();
+		const compras = await Compra.findAll({
+			include: [{ model: Paquete }],
+		});
 		res.status(200).json(compras);
 	} catch (error) {
 		res.status(500).json({ error: "Intente mas tarde..." });
 	}
 });
 
-//GET - TRAER UNA COMPRA POR ID
+//GET - Bring a purchase by ID
 //localhost:3000/compras/:idCompra
 app.get("/compras/:idCompra", async (req, res) => {
 	const idCompra = req.params.idCompra;
@@ -316,7 +318,7 @@ app.get("/compras/:idCompra", async (req, res) => {
 	}
 });
 
-//POST - AGREGAR UNA COMPRA
+//POST - Add a purchase
 //localhost:3000/compras
 app.post("/compras", validateCompraBody, async (req, res) => {
 	try {
@@ -324,7 +326,7 @@ app.post("/compras", validateCompraBody, async (req, res) => {
 			cantidad: req.body.cantidad,
 			fecha: req.body.fecha,
 			usuario_id: req.body.usuario_id,
-			fecha_viaje: req.body.usuario_id,
+			fecha_viaje: req.body.fecha_viaje,
 		});
 		res.status(200).json(compra);
 	} catch (error) {
@@ -332,7 +334,7 @@ app.post("/compras", validateCompraBody, async (req, res) => {
 	}
 });
 
-//DELETE - ELIMINAR UNA COMPRA POR ID
+//DELETE - Delete a purchase by ID
 //localhost:3000/compras/idCompra
 app.delete("/compras/:idCompra", async (req, res) => {
 	const idCompra = req.params.idCompra;
@@ -350,7 +352,7 @@ app.delete("/compras/:idCompra", async (req, res) => {
 	}
 });
 
-//PUT - MODIFICAR UNA COMPRA POR ID
+//PUT - Modify a purchase by ID
 //localhost:3000/compras/idCompra
 app.put(
 	"/compras/:idCompra",
@@ -385,7 +387,7 @@ app.put(
 //                                  FIN COMPRAS                                 //
 //------------------------------------------------------------------------------//
 
-//GET - TRAER TODOS LOS PAQUETE-COMPRA (PARA PROBAR)
+//GET - Bring all package-buy (to try)
 //localhost:3000/paquete_compra
 app.get("/paquete_compra", validateAdmin, async (req, res) => {
 	try {
@@ -417,10 +419,16 @@ app.get("/paquete_compra", validateAdmin, async (req, res) => {
 //---------------------------- END sequelize---------------------------------
 
 //==========================================================================
-//5. levantar el servidor
+//5. raise the server.
 //==========================================================================
 app.listen(3000, () => {
 	console.log("servidor iniciado");
 });
 
-//1:03
+// To capture the moment when the server is disconnected
+// in case it had to close something more before going down
+//SIGINT is triggered by pressing Ctrl + C
+process.on("SIGINT", () => {
+	console.log(" -- servidor desconectado -- ");
+	process.exit();
+});
