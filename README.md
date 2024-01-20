@@ -87,6 +87,5 @@ MySQL
 
 Autores ✒️
 Marcelo Farias
-Santiago Circo
 
 Gracias a nuestro Squad Lead Dany Javier Bautista Montaña, por su dirección y colaboración en el proyecto. 🎁
